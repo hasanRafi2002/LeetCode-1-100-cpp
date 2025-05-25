@@ -3,27 +3,34 @@
 #include <unordered_map>
 using namespace std;
 
-vector<int> twoSum(vector<int> & nums, int target){
-    unordered_map<int, int> map;
+int main(){
+    int n, target;
 
-    for(int i= 0; i<nums.size(); ++i){
+    cout<<"Enter number of elements: ";
+    cin>>n;
+
+    vector<int> nums(n);
+
+    cout<<"Enter the elements:\n";
+    for(int i =0; i<n; ++i){
+        cin>>nums[i];
+    }
+
+    cout<<"Enter target: ";
+    cin>>target;
+
+    unordered_map<int, int> map;
+    for(int i =0; i<nums.size(); ++i){
         int complement = target - nums[i];
 
         if(map.count(complement)){
-            return{map[complement], i};
+            cout<<"Indices: ["<<map[complement]<<", "<<i<<"]\n";
+            return 0;
         }
         map[nums[i]] = i;
     }
-    return{};
-}
+    cout<<"No valid pair found.\n";
+    return 0 ;
 
 
-int main(){
-    vector<int> nums = {2, 7, 11, 15};
-    int target = 9;
-
-    vector<int> result = twoSum(nums, target);
-    cout<<"Indices: ["<<result[0]<<", "<<result[1]<<"]"<<endl;
-
-    return 0;
 }
