@@ -1,41 +1,39 @@
 #include <iostream>
-#include <vector>
+#include <string>
 using namespace std;
 
-int removeDuplicates(vector<int>& nums) {
-    if (nums.empty()) return 0;
+// Function to find the first occurrence
+int strStr(string haystack, string needle) {
+    int n = haystack.size();
+    int m = needle.size();
 
-    int j = 0; // position of last unique element
+    if (m == 0) return 0; // Edge case: empty needle
 
-    for (int i = 1; i < nums.size(); ++i) {
-        if (nums[i] != nums[j]) {
-            j++;
-            nums[j] = nums[i];
+    for (int i = 0; i <= n - m; i++) {
+        if (haystack.substr(i, m) == needle) {
+            return i;
         }
     }
 
-    return j + 1;
+    return -1;
 }
 
 int main() {
-    int n;
-    cout << "Enter number of elements: ";
-    cin >> n;
+    string haystack, needle;
 
-    vector<int> nums(n);
-    cout << "Enter " << n << " sorted elements:\n";
-    for (int i = 0; i < n; ++i) {
-        cin >> nums[i];
+    cout << "Enter the haystack string: ";
+    getline(cin, haystack);  // Allows input with spaces
+
+    cout << "Enter the needle string: ";
+    getline(cin, needle);
+
+    int index = strStr(haystack, needle);
+
+    if (index != -1) {
+        cout << "The needle is found at index: " << index << endl;
+    } else {
+        cout << "The needle was not found in the haystack." << endl;
     }
-
-    int k = removeDuplicates(nums);
-
-    cout << "\nNumber of unique elements: " << k << endl;
-    cout << "Modified array: ";
-    for (int i = 0; i < k; ++i) {
-        cout << nums[i] << " ";
-    }
-    cout << endl;
 
     return 0;
 }
