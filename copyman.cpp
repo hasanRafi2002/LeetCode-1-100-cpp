@@ -1,39 +1,42 @@
 #include <iostream>
-#include <string>
+#include <vector>
 using namespace std;
 
-// Function to find the first occurrence
-int strStr(string haystack, string needle) {
-    int n = haystack.size();
-    int m = needle.size();
+// Function to add one to the digits
+vector<int> plusOne(vector<int>& digits) {
+    int n = digits.size();
 
-    if (m == 0) return 0; // Edge case: empty needle
-
-    for (int i = 0; i <= n - m; i++) {
-        if (haystack.substr(i, m) == needle) {
-            return i;
+    for (int i = n - 1; i >= 0; --i) {
+        if (digits[i] < 9) {
+            digits[i]++;
+            return digits;
         }
+        digits[i] = 0;
     }
 
-    return -1;
+    // If all digits are 9, we need to add an extra digit at the beginning
+    digits.insert(digits.begin(), 1);
+    return digits;
 }
 
 int main() {
-    string haystack, needle;
+    int n;
+    cout << "Enter the number of digits: ";
+    cin >> n;
 
-    cout << "Enter the haystack string: ";
-    getline(cin, haystack);  // Allows input with spaces
-
-    cout << "Enter the needle string: ";
-    getline(cin, needle);
-
-    int index = strStr(haystack, needle);
-
-    if (index != -1) {
-        cout << "The needle is found at index: " << index << endl;
-    } else {
-        cout << "The needle was not found in the haystack." << endl;
+    vector<int> digits(n);
+    cout << "Enter the digits (space-separated): ";
+    for (int i = 0; i < n; ++i) {
+        cin >> digits[i];
     }
+
+    vector<int> result = plusOne(digits);
+
+    cout << "Result after adding one: ";
+    for (int digit : result) {
+        cout << digit << " ";
+    }
+    cout << endl;
 
     return 0;
 }
