@@ -1,58 +1,98 @@
 #include <iostream>
 #include <vector>
+#include <queue>
+#include <sstream>
 using namespace std;
 
-void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-    int i = m - 1;
-    int j = n - 1;
-    int k = m + n - 1;
+// --- TreeNode structure ---
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
 
-    while (i >= 0 && j >= 0) {
-        if (nums1[i] > nums2[j]) {
-            nums1[k--] = nums1[i--];
-        } else {
-            nums1[k--] = nums2[j--];
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+// --- Solution class (same as LeetCode) ---
+
+
+
+
+    void inorder(TreeNode* root, vector<int>& result) {
+        if (!root) return;
+        inorder(root->left, result);
+        result.push_back(root->val);
+        inorder(root->right, result);
+    }
+
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> result;
+        inorder(root, result);
+        return result;
+    }
+
+
+
+
+
+
+
+
+// --- Function to build tree from level-order input ---
+TreeNode* buildTree(const vector<string>& nodes) {
+    if (nodes.empty() || nodes[0] == "N") return nullptr;
+
+    TreeNode* root = new TreeNode(stoi(nodes[0]));
+    queue<TreeNode*> q;
+    q.push(root);
+
+    int i = 1;
+    while (!q.empty() && i < nodes.size()) {
+        TreeNode* current = q.front(); q.pop();
+
+        // Left child
+        if (i < nodes.size() && nodes[i] != "N") {
+            current->left = new TreeNode(stoi(nodes[i]));
+            q.push(current->left);
         }
+        i++;
+
+        // Right child
+        if (i < nodes.size() && nodes[i] != "N") {
+            current->right = new TreeNode(stoi(nodes[i]));
+            q.push(current->right);
+        }
+        i++;
     }
 
-    // Copy remaining elements from nums2
-    while (j >= 0) {
-        nums1[k--] = nums2[j--];
-    }
+    return root;
 }
 
 int main() {
-    int m, n;
+    cout << "Enter tree nodes in level-order (use N for null): ";
+    string input;
+    getline(cin, input);
 
-    cout << "Enter the number of initialized elements in nums1 (m): ";
-    cin >> m;
+    // Parse input string
+    stringstream ss(input);
+    string val;
+    vector<string> nodes;
 
-    cout << "Enter the number of elements in nums2 (n): ";
-    cin >> n;
-
-    vector<int> nums1(m + n); // total size to hold merged result
-    vector<int> nums2(n);
-
-    cout << "Enter " << m << " sorted elements for nums1: ";
-    for (int i = 0; i < m; ++i) {
-        cin >> nums1[i];
+    while (ss >> val) {
+        nodes.push_back(val);
     }
 
-    // Fill the rest with zeros (not necessary but helps visualize)
-    for (int i = m; i < m + n; ++i) {
-        nums1[i] = 0;
-    }
+    // Build tree
+    TreeNode* root = buildTree(nodes);
 
-    cout << "Enter " << n << " sorted elements for nums2: ";
-    for (int i = 0; i < n; ++i) {
-        cin >> nums2[i];
-    }
+    // Solve using LeetCode-style function
 
-    merge(nums1, m, nums2, n);
+    vector<int> result = inorderTraversal(root);
 
-    cout << "Merged array: ";
-    for (int i = 0; i < m + n; ++i) {
-        cout << nums1[i] << " ";
+    // Output result
+    cout << "Inorder Traversal: ";
+    for (int v : result) {
+        cout << v << " ";
     }
     cout << endl;
 
