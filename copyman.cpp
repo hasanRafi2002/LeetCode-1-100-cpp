@@ -1,100 +1,69 @@
 #include <iostream>
-#include <vector>
 #include <queue>
-#include <sstream>
 using namespace std;
 
-// --- TreeNode structure ---
 struct TreeNode {
     int val;
     TreeNode* left;
     TreeNode* right;
 
-    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
 };
 
-// --- Solution class (same as LeetCode) ---
+// Build tree from level order input
+TreeNode* buildTree() {
+    cout << "Enter tree nodes in level order (use -1 for NULL): ";
 
+    int val;
+    cin >> val;
+    if (val == -1) return nullptr;
 
-
-
-    void inorder(TreeNode* root, vector<int>& result) {
-        if (!root) return;
-        inorder(root->left, result);
-        result.push_back(root->val);
-        inorder(root->right, result);
-    }
-
-    vector<int> inorderTraversal(TreeNode* root) {
-        vector<int> result;
-        inorder(root, result);
-        return result;
-    }
-
-
-
-
-
-
-
-
-// --- Function to build tree from level-order input ---
-TreeNode* buildTree(const vector<string>& nodes) {
-    if (nodes.empty() || nodes[0] == "N") return nullptr;
-
-    TreeNode* root = new TreeNode(stoi(nodes[0]));
+    TreeNode* root = new TreeNode(val);
     queue<TreeNode*> q;
     q.push(root);
 
-    int i = 1;
-    while (!q.empty() && i < nodes.size()) {
-        TreeNode* current = q.front(); q.pop();
+    while (!q.empty()) {
+        TreeNode* current = q.front();
+        q.pop();
 
-        // Left child
-        if (i < nodes.size() && nodes[i] != "N") {
-            current->left = new TreeNode(stoi(nodes[i]));
+        int leftVal, rightVal;
+        cin >> leftVal;
+        if (leftVal != -1) {
+            current->left = new TreeNode(leftVal);
             q.push(current->left);
         }
-        i++;
 
-        // Right child
-        if (i < nodes.size() && nodes[i] != "N") {
-            current->right = new TreeNode(stoi(nodes[i]));
+        cin >> rightVal;
+        if (rightVal != -1) {
+            current->right = new TreeNode(rightVal);
             q.push(current->right);
         }
-        i++;
     }
 
     return root;
 }
 
+// Recursive tree comparison
+bool isSameTree(TreeNode* p, TreeNode* q) {
+    if (!p && !q) return true;
+    if (!p || !q) return false;
+    if (p->val != q->val) return false;
+
+    return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+}
+
 int main() {
-    cout << "Enter tree nodes in level-order (use N for null): ";
-    string input;
-    getline(cin, input);
+    cout << "Build Tree 1:\n";
+    TreeNode* tree1 = buildTree();
 
-    // Parse input string
-    stringstream ss(input);
-    string val;
-    vector<string> nodes;
+    cout << "Build Tree 2:\n";
+    TreeNode* tree2 = buildTree();
 
-    while (ss >> val) {
-        nodes.push_back(val);
+    if (isSameTree(tree1, tree2)) {
+        cout << "The trees are the SAME.\n";
+    } else {
+        cout << "The trees are DIFFERENT.\n";
     }
-
-    // Build tree
-    TreeNode* root = buildTree(nodes);
-
-    // Solve using LeetCode-style function
-
-    vector<int> result = inorderTraversal(root);
-
-    // Output result
-    cout << "Inorder Traversal: ";
-    for (int v : result) {
-        cout << v << " ";
-    }
-    cout << endl;
 
     return 0;
 }
