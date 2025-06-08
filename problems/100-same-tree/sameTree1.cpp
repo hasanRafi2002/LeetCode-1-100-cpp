@@ -20,3 +20,4 @@ TreeNode* buildTree(){
 
     if(val == -1) return nullptr;
 }
+
