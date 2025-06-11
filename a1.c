@@ -27,6 +27,8 @@ int main() {
     char password[20];
     int studentId;
 
+
+
     while (1) {
         printf("\n===== Student Information Management System =====\n");
         printf("1. Admin Login\n");
@@ -63,17 +65,13 @@ int main() {
 
 
 
-
-
-
-
-
-
-
-
-
     return 0;
 }
+
+
+
+
+
 
 // Admin Menu Function
 void adminMenu() {
@@ -116,6 +114,10 @@ void adminMenu() {
     } while (choice != 6);
 }
 
+
+
+
+
 // Function to Add a New Student (Text Mode)
 void addStudent() {
     FILE *fp;
@@ -143,6 +145,10 @@ void addStudent() {
 
     printf("✅ Student added successfully!\n");
 }
+
+
+
+
 
 // Function to View Student by ID (Text Mode)
 void viewStudent() {
@@ -177,6 +183,10 @@ void viewStudent() {
 
     fclose(fp);
 }
+
+
+
+
 
 // Function to Update Student by ID
 void updateStudent() {
@@ -233,6 +243,10 @@ void updateStudent() {
     }
 }
 
+
+
+
+
 // Function to Delete Student by ID
 void deleteStudent() {
     FILE *fp, *tempFp;
@@ -277,6 +291,10 @@ void deleteStudent() {
     }
 }
 
+
+
+
+
 // Function to View All Students
 void viewAllStudents() {
     FILE *fp;
@@ -302,6 +320,10 @@ void viewAllStudents() {
 
     fclose(fp);
 }
+
+
+
+
 
 
 // Function for student to view their own details by ID
