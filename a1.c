@@ -111,7 +111,7 @@ void adminMenu() {
                 printf("❌ Invalid choice! Try again.\n");
         }
 
-    } while (choice != 6);
+    }while (choice != 6);
 }
 
 
